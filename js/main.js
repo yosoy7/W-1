@@ -32,7 +32,7 @@ function renderTasks(){
         li.appendChild(btn);
         taskList.appendChild(li);
     });
-    localStorage.setItem('task', JSON.stringify(tasks));
+    localStorage.setItem('task', JSON.stringify(task));
 }
 
 function addTask() {
