@@ -43,8 +43,7 @@ taskInput.value.trim();
         taskInput.value = '';
         renderTasks();
     }
-}
-    
+} 
     function toggleComplete(index) {
         task[index].completed = !
         task[index].completed;
@@ -55,7 +54,7 @@ taskInput.value.trim();
         task.splice(index, 1);
         renderTasks();
     }
-
+   
 
 addBtn.addEventListener('click', 
 addTask);
