@@ -36,12 +36,25 @@ function renderTasks(){
 }
 
 function addTask() {
-    const text = 
-taskInput.value.trim();
-    if (text !== '') {
-        task.push({text, completed: false});
-        taskInput.value = '';
-        renderTasks();
+    const text = taskInput.value.trim();
+    if (text !== '') { 
+        fetch('http://localhost:3000/tareas',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({text})
+        })
+        .then(res => res.json())
+        .then(data => {
+            console,log('Tarea guardada en la base de datos:', data);
+            task.push({text, completed: false});
+            taskInput.value = '';
+            renderTasks();
+        })
+        .catch(err => {
+            console.error('Error al guardar tarea, err');
+        });   
     }
 } 
     function toggleComplete(index) {

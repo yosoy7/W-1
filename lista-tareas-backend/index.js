@@ -16,17 +16,26 @@ const db = mysql.createConnection({
 });
 
 app.post('/tareas', (req, res) => {
-    const { descripcion } = req.body;
-    const query = 'INSERT INTO tareas (descripcion) VALUES (?)';
+    console.log(req.body);
+    
+    const { text } = req.body;
+    const fecha = new Date();
+    const id = Date.now();
 
-    db.query(query, [descripcion], (err, result) => {
-        if (err) return
-    res.status(500).send('Error al guardar tarea');
-        res.send({id: result.insertId, mensaje: 'Tarea guardada exitosamente'});
-    });
+    const query = 'INSERT INTO tareas ( descripcion, fecha_creacion) VALUES (?, ?)';
+
+   db.query(query, [ text, fecha], (err, results) => {
+    if (err){
+        console.log(err);
+        
+        console.error('Error al insertar tarea');
+        return res.status(500).json({error: 'Error al guardar tarea'});
+    }
+    res.json({message: 'Tarea Guardada', id});
+   });
 });
 
-app.post('/tareas/:id', (req, res) => {
+app.get('/tareas/:id', (req, res) => {
     const {id} = req.params;
     const query = 'SELECT * FROM tareas WHERE id = ?';
 
@@ -47,5 +56,5 @@ app.post('/tareas/:id', (req, res) => {
 });
 
 app.listen(PORT,() => {
-    console.log('Servidor corriendo en https://localhost:${PORT}');
+    console.log(`Servidor corriendo en https://localhost:${PORT}`);
 });
